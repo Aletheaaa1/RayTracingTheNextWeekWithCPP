@@ -8,8 +8,8 @@ public:
 	Sphere() = default;
 	Sphere(vec3 center, double radius, std::shared_ptr<Material> mat_ptr);
 	bool Hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override;
+	AABB BoundingBox() const override;
 
-public:
 	vec3 center;
 	double radius;
 	std::shared_ptr<Material> mat_ptr;
@@ -44,4 +44,12 @@ inline bool Sphere::Hit(const Ray& r, double t_min, double t_max, HitRecord& rec
 	rec.SetFrontFace(r, outward_normal);
 
 	return true;
+}
+
+inline AABB Sphere::BoundingBox() const
+{
+	return AABB{
+		center - vec3(radius, radius, radius),
+		center + vec3(radius, radius, radius)
+	};
 }

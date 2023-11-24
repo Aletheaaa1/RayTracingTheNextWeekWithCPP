@@ -13,9 +13,11 @@ public:
 	void Clear();
 	void Add(const std::shared_ptr<Hittable> obj);
 	bool Hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override;
+	AABB BoundingBox() const override;
 
 public:
 	std::vector<std::shared_ptr<Hittable>> objects;
+	AABB box;
 };
 
 inline void HittableList::Clear()
@@ -45,4 +47,20 @@ inline bool HittableList::Hit(const Ray& r, double t_min, double t_max, HitRecor
 	}
 
 	return hit_anything;
+}
+
+inline AABB HittableList::BoundingBox() const
+{
+	AABB temp_box;
+	AABB box;
+	bool first_box = true;
+
+	for (const auto& obj : objects)
+	{
+		temp_box = obj->BoundingBox();
+		box = first_box ? temp_box : AABB::SurroundingBox(box, temp_box);
+		first_box = false;
+	}
+
+	return box;
 }

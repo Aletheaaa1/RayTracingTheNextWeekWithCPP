@@ -10,13 +10,14 @@ public:
 	AABB(const vec3& a, const vec3& b);
 
 	bool Hit(const Ray& ray, double t_min, double t_max) const;
+	static AABB SurroundingBox(const AABB& box0, const AABB& box1);
 
 public:
 	vec3 minmum;
 	vec3 maxmum;
 };
 
-inline AABB::AABB(const vec3& minnum, const vec3& maxnum) : minmum(minmum), maxmum(maxmum)
+inline AABB::AABB(const vec3& minimum, const vec3& maxmum) : minmum(minimum), maxmum(maxmum)
 {
 }
 
@@ -42,4 +43,20 @@ inline bool AABB::Hit(const Ray& ray, double t_min, double t_max) const
 	}
 
 	return true;
+}
+
+inline AABB AABB::SurroundingBox(const AABB& box0, const AABB& box1)
+{
+	vec3 min{
+		fmin(box0.minmum.x(), box1.minmum.x()),
+		fmin(box0.minmum.y(), box1.minmum.y()),
+		fmin(box0.minmum.z(), box1.minmum.z())
+	};
+	vec3 max{
+		fmax(box0.maxmum.x(), box1.maxmum.x()),
+		fmax(box0.maxmum.y(), box1.maxmum.y()),
+		fmax(box0.maxmum.z(), box1.maxmum.z())
+	};
+
+	return AABB{ min, max };
 }

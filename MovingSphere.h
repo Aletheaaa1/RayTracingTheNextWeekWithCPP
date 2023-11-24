@@ -7,6 +7,8 @@ public:
 	MovingSphere() = default;
 	MovingSphere(vec3 center0, vec3 center1, double time0, double time1, double radius, std::shared_ptr<Material> mat_ptr);
 	bool Hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override;
+	AABB BoundingBox() const override;
+
 public:
 	vec3 center0, center1;
 	double time0, time1;
@@ -45,4 +47,12 @@ inline bool MovingSphere::Hit(const Ray& r, double t_min, double t_max, HitRecor
 	rec.SetFrontFace(r, outward_normal);
 
 	return true;
+}
+
+inline AABB MovingSphere::BoundingBox() const
+{
+	return AABB{
+		center0 - vec3(radius, radius, radius),
+		center0 + vec3(radius, radius, radius)
+	};
 }

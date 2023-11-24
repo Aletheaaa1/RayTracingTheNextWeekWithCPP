@@ -2,6 +2,7 @@
 #include <iostream>
 #include <glm/simd/platform.h>
 
+#include "BVH.h"
 #include "Vec3.h"
 #include "Camera.h"
 #include "Ray.h"
@@ -21,7 +22,7 @@ void WriteColor(std::ostream& out, color pixel_color)
 		<< static_cast<int>(255.999 * pow(pixel_color.z(), 1.0 / 2.2)) << '\n';
 }
 
-vec3 RayColor(const Ray& ray, const HittableList& world, int deepth)
+vec3 RayColor(const Ray& ray, const Hittable& world, int deepth)
 {
 	if (deepth < 0)
 	{
@@ -105,11 +106,11 @@ int main() {
 	constexpr int image_height = 720;
 	constexpr int image_width = image_height * aspect;
 
-	int deepth = 50;
+	int depth = 50;
 	int samplerNum;
 	std::cin >> samplerNum;
 
-	Camera camera(40, aspect, vec3(3, 3, 2), vec3(0, 0, -1.0), vec3(0, 1.0, 0), 0.0, 1.0);
+	Camera camera(20, aspect, vec3(13, 20, 3), vec3(0, 0, -1.0), vec3(0, 1.0, 0), 0.0, 1.0);
 
 	// World
 	//HittableList world = RandomWorld();
@@ -118,14 +119,16 @@ int main() {
 	auto material_ground = std::make_shared<Lambertian>(color(0.8, 0.8, 0.0));
 	auto material_center = std::make_shared<Lambertian>(color(0.7, 0.3, 0.3));
 	auto material_left = std::make_shared<Dielectric>(1.5);
-	auto material_right = std::make_shared<Metallic>(vec3(0.7, 0.7, 0.1), 0.0);
+	auto material_right = std::make_shared<Metallic>(vec3(0.3, 0.5, 0.6), 0.0);
 
-	world.Add(std::make_shared<MovingSphere>(point3(-2.0, 0, -1.0), point3(-2.0, 1.0, -1.0), 0.0, 1.0, 0.5, material_center));
+	//world.Add(std::make_shared<MovingSphere>(point3(-2.0, 0, -1.0), point3(-2.0, 1.0, -1.0), 0.0, 1.0, 0.5, material_center));
 	world.Add(std::make_shared<Sphere>(point3(0, 0, -1.0), 0.5, material_center));
 	world.Add(std::make_shared<Sphere>(point3(-1.0, 0, -1.0), 0.5, material_left));
 	world.Add(std::make_shared<Sphere>(point3(-1.0, 0, -1.0), -0.4, material_left));
 	world.Add(std::make_shared<Sphere>(point3(1.0, 0, -1.0), 0.5, material_right));
 	world.Add(std::make_shared<Sphere>(point3(0, -1000.5, -1.0), 1000, material_ground));
+
+	BVH bvh_node{ world };
 
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
@@ -143,7 +146,7 @@ int main() {
 
 				Ray r = camera.GetRay(u, v);
 
-				color += RayColor(r, world, deepth);
+				color += RayColor(r, bvh_node, depth);
 			}
 
 			color /= samplerNum;

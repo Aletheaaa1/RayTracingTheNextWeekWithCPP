@@ -1,98 +1,105 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AABB" Collapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAIAAAAAAAAAAAAAAAAAQEAAAAQ=</HashCode>
+      <FileName>AABB.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Camera" Collapsed="true">
-    <Position X="9.25" Y="0.5" Width="1.5" />
+    <Position X="11.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAgCAEAAABAAAAABAABAAAEAAAACAAABAAAAAiAAgAA=</HashCode>
       <FileName>Camera.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Dielectric" Collapsed="true">
-    <Position X="0.5" Y="1.75" Width="1.5" />
+    <Position X="2.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAQAAAAAAAAQAAAAAAAAACAAAAAAAAAAAA=</HashCode>
       <FileName>Dielectric .h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Hittable" Collapsed="true">
-    <Position X="2.75" Y="3.5" Width="1.5" />
+    <Position X="3.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Hittable.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HittableList" Collapsed="true">
-    <Position X="0.5" Y="4.75" Width="1.5" />
+    <Position X="2.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAIAAAAAAQAAAAAAAAAAAAhAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAAAIAAgAAASAAAAAAAAAAAAhAAAA=</HashCode>
       <FileName>HittableList.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Lambertian" Collapsed="true">
-    <Position X="2.75" Y="1.75" Width="1.5" />
+    <Position X="5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAEAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Lambertian.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Material" Collapsed="true">
-    <Position X="2.75" Y="0.5" Width="1.5" />
+    <Position X="2.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Material.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Metallic" Collapsed="true">
-    <Position X="5" Y="1.75" Width="1.5" />
+    <Position X="0.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABgAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
       <FileName>Metallic.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="MovingSphere" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAGAAACAAAAAAAAAqAAAEAACAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>MovingSphere.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Random" Collapsed="true">
-    <Position X="11" Y="0.5" Width="1.5" />
+    <Position X="13.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAIAAACAAAAAAAAAAA=</HashCode>
       <FileName>Random.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Ray" Collapsed="true">
-    <Position X="7.5" Y="1.5" Width="1.5" />
+    <Position X="9.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAAACABCAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Ray.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sphere" Collapsed="true">
-    <Position X="5" Y="4.75" Width="1.5" />
+    <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAACAAAAAAAAAaAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAgAAAAACAAAAAAAAAaAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Sphere.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="vec3" Collapsed="true">
-    <Position X="9.25" Y="1.5" Width="1.5" />
+    <Position X="11.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACABAAAAAEAAAQAAAAEAACACAARgAQgAAAA=</HashCode>
       <FileName>Vec3.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MovingSphere" Collapsed="true">
-    <Position X="2.75" Y="4.75" Width="1.5" />
+  <Class Name="BVH" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAGAAACAAAAAAAAAqAAAEAAAAAAAAAAAAAACAAAAA=</HashCode>
-      <FileName>MovingSphere.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AABB" Collapsed="true">
-    <Position X="7.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AABB.h</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAgAAACAIAAAAQAAAAAAAgAA=</HashCode>
+      <FileName>BVH.h</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="HitRecord" Collapsed="true">
-    <Position X="7.5" Y="2.75" Width="1.5" />
+    <Position X="9.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAAAACAAAgAAAAAAAAAAEQAAQAAAAA=</HashCode>
       <FileName>Hittable.h</FileName>
