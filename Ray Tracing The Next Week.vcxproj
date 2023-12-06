@@ -20,9 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="Box.h" />
     <ClInclude Include="BVH.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CheckerTexture.h" />
     <ClInclude Include="Dielectric .h" />
+    <ClInclude Include="DiffuseLight.h" />
     <ClInclude Include="Hittable.h" />
     <ClInclude Include="HittableList.h" />
     <ClInclude Include="Lambertian.h" />
@@ -31,11 +34,13 @@
     <ClInclude Include="MovingSphere.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="Rect.h" />
+    <ClInclude Include="SolidColor.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Vec3.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="img.ppm" />
   </ItemGroup>
   <ItemGroup>

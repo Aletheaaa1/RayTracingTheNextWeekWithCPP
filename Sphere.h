@@ -9,7 +9,9 @@ public:
 	Sphere(vec3 center, double radius, std::shared_ptr<Material> mat_ptr);
 	bool Hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const override;
 	AABB BoundingBox() const override;
+	static void GetSphereUV(const vec3& p, double& u, double& v);
 
+public:
 	vec3 center;
 	double radius;
 	std::shared_ptr<Material> mat_ptr;
@@ -42,6 +44,7 @@ inline bool Sphere::Hit(const Ray& r, double t_min, double t_max, HitRecord& rec
 	rec.mat_ptr = mat_ptr;
 	const vec3 outward_normal = (rec.p - center) / radius;
 	rec.SetFrontFace(r, outward_normal);
+	GetSphereUV(outward_normal, rec.u, rec.v);
 
 	return true;
 }
@@ -52,4 +55,13 @@ inline AABB Sphere::BoundingBox() const
 		center - vec3(radius, radius, radius),
 		center + vec3(radius, radius, radius)
 	};
+}
+
+inline void Sphere::GetSphereUV(const vec3& p, double& u, double& v)
+{
+	auto theta = acos(-p.y());
+	auto phi = atan2(-p.z(), p.x()) + PI;
+
+	u = phi / (2 * PI);
+	v = theta / PI;
 }

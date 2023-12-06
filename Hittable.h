@@ -7,6 +7,8 @@ struct HitRecord {
 	vec3 p;
 	vec3 normal;
 	double t;
+	double u;
+	double v;
 	bool is_front;
 	std::shared_ptr<Material> mat_ptr;
 

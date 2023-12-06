@@ -12,17 +12,19 @@
 #include "Lambertian.h"
 #include "Metallic.h"
 #include "Dielectric .h"
+#include "DiffuseLight.h"
 #include "MovingSphere.h"
+#include "Rect.h"
 
 void WriteColor(std::ostream& out, color pixel_color)
 {
 	// Write the translated [0,255] value of each color component.
-	out << static_cast<int>(255.999 * pow(pixel_color.x(), 1.0 / 2.2)) << ' '
-		<< static_cast<int>(255.999 * pow(pixel_color.y(), 1.0 / 2.2)) << ' '
-		<< static_cast<int>(255.999 * pow(pixel_color.z(), 1.0 / 2.2)) << '\n';
+	out << static_cast<int>(255.999 * pow(pixel_color.x() / (pixel_color.x() + 1), 1.0 / 2.2)) << ' '
+		<< static_cast<int>(255.999 * pow(pixel_color.y() / (pixel_color.y() + 1), 1.0 / 2.2)) << ' '
+		<< static_cast<int>(255.999 * pow(pixel_color.z() / (pixel_color.z() + 1), 1.0 / 2.2)) << '\n';
 }
 
-vec3 RayColor(const Ray& ray, const Hittable& world, int deepth)
+vec3 RayColor(const Ray& ray, const Hittable& world, int deepth, vec3 background)
 {
 	if (deepth < 0)
 	{
@@ -37,20 +39,19 @@ vec3 RayColor(const Ray& ray, const Hittable& world, int deepth)
 	{
 		vec3 attenuation(0, 0, 0);
 		Ray scattered;
+		vec3 emit = rec.mat_ptr->Emitted(rec.u, rec.v, rec.p);
 		if (rec.mat_ptr->Scatter(ray, attenuation, rec, scattered))
 		{
-			return RayColor(scattered, world, deepth - 1) * attenuation;
+			return RayColor(scattered, world, deepth - 1, background) * attenuation + emit;
 		}
+		return emit;
 	}
 
-	vec3 unit_direction = normalize(ray.dir);
-	auto t = 0.5 * (unit_direction.y() + 1.0);
-	return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+	return background;
 }
 
-HittableList RandomWorld()
+void RandomWorld(HittableList& world)
 {
-	HittableList world;
 	auto ground_material = std::make_shared<Lambertian>(color(0.5, 0.5, 0.5));
 	world.Add(std::make_shared<Sphere>(point3(0, -1000, 0), 1000, ground_material));
 
@@ -95,27 +96,9 @@ HittableList RandomWorld()
 	// Ω Ù¥Û«Ú
 	auto material3 = std::make_shared<Metallic>(color(0.7, 0.6, 0.5), 0.0);
 	world.Add(std::make_shared<Sphere>(point3(4, 1, 0), 1.0, material3));
-
-	return world;
 }
-
-int main() {
-	auto start_time = std::chrono::high_resolution_clock::now();
-
-	constexpr double aspect = 16.0 / 9.0;
-	constexpr int image_height = 720;
-	constexpr int image_width = image_height * aspect;
-
-	int depth = 50;
-	int samplerNum;
-	std::cin >> samplerNum;
-
-	Camera camera(20, aspect, vec3(13, 20, 3), vec3(0, 0, -1.0), vec3(0, 1.0, 0), 0.0, 1.0);
-
-	// World
-	//HittableList world = RandomWorld();
-	HittableList world;
-
+void DefaultWorld(HittableList& world)
+{
 	auto material_ground = std::make_shared<Lambertian>(color(0.8, 0.8, 0.0));
 	auto material_center = std::make_shared<Lambertian>(color(0.7, 0.3, 0.3));
 	auto material_left = std::make_shared<Dielectric>(1.5);
@@ -127,8 +110,56 @@ int main() {
 	world.Add(std::make_shared<Sphere>(point3(-1.0, 0, -1.0), -0.4, material_left));
 	world.Add(std::make_shared<Sphere>(point3(1.0, 0, -1.0), 0.5, material_right));
 	world.Add(std::make_shared<Sphere>(point3(0, -1000.5, -1.0), 1000, material_ground));
+}
+void SimpleWorld(HittableList& world)
+{
+	auto light = std::make_shared<DiffuseLight>(vec3(4, 4, 4));
+	auto material_ground = std::make_shared<Lambertian>(color(0.8, 0.8, 0.0));
+	auto material_center = std::make_shared<Lambertian>(color(0.7, 0.3, 0.3));
 
-	BVH bvh_node{ world };
+	world.Add(std::make_shared<Sphere>(point3(0, -1000.5, -1.0), 1000, material_ground));
+	world.Add(std::make_shared<Sphere>(point3(0, 2, 0), 2, material_center));
+	world.Add(std::make_shared<Sphere>(point3(0, 6, 0), 1, light));
+	world.Add(std::make_shared<XYRect>(3, 5, 1, 3, -2, light));
+}
+void CornellBox(HittableList& world)
+{
+	auto red = std::make_shared<Lambertian>(color(.65, .05, .05));
+	auto white = std::make_shared<Lambertian>(color(.73, .73, .73));
+	auto green = std::make_shared<Lambertian>(color(.12, .45, .15));
+	auto light = std::make_shared<DiffuseLight>(color(20, 20, 20));
+
+	world.Add(std::make_shared<YZRect>(0, 555, 0, 555, 555, green));
+	world.Add(std::make_shared<YZRect>(0, 555, 0, 555, 0, red));
+	world.Add(std::make_shared<XZRect>(213, 343, 227, 332, 554, light));
+	world.Add(std::make_shared<XZRect>(0, 555, 0, 555, 0, white));
+	world.Add(std::make_shared<XZRect>(0, 555, 0, 555, 555, white));
+	world.Add(std::make_shared<XYRect>(0, 555, 0, 555, 555, white));
+}
+
+int main() {
+#pragma region Camera
+	constexpr double aspect = 16.0 / 9.0;
+	constexpr int image_height = 720;
+	constexpr int image_width = image_height * aspect;
+
+	int depth = 50;
+	int samplerNum;
+	std::cin >> samplerNum;
+
+	Camera camera(40, aspect, vec3(278, 278, -800), vec3(278, 278, 0.0), vec3(0, 1.0, 0), 0.0, 1.0);
+#pragma  endregion Camera
+
+#pragma region World
+	// World
+	HittableList world;
+	//DefaultWorld(world);
+	//SimpleWorld(world);
+	CornellBox(world);
+	//RandomWorld(world);
+	const auto start_time = std::chrono::high_resolution_clock::now();
+	const BVH bvh_node{ world };
+#pragma endregion World
 
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
@@ -141,12 +172,12 @@ int main() {
 
 			for (int k = 0; k < samplerNum; k++)
 			{
-				auto u = (i + random_double()) / (image_width - 1);
-				auto v = (j + random_double()) / (image_height - 1);
+				const auto u = (i + random_double()) / (image_width - 1);
+				const auto v = (j + random_double()) / (image_height - 1);
 
 				Ray r = camera.GetRay(u, v);
 
-				color += RayColor(r, bvh_node, depth);
+				color += RayColor(r, bvh_node, depth, vec3(0, 0, 0));
 			}
 
 			color /= samplerNum;
@@ -154,8 +185,8 @@ int main() {
 		}
 	}
 
-	auto end_time = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+	const auto end_time = std::chrono::high_resolution_clock::now();
+	const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 	std::cerr << "\nFinish! using " << duration << std::endl;
 	system("pause");
 }
