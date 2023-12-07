@@ -1,7 +1,10 @@
 #include <chrono>
 #include <iostream>
-#include <glm/simd/platform.h>
+#include <mutex>
+#include <thread>
+#include <omp.h>
 
+#include "Box.h"
 #include "BVH.h"
 #include "Vec3.h"
 #include "Camera.h"
@@ -135,15 +138,18 @@ void CornellBox(HittableList& world)
 	world.Add(std::make_shared<XZRect>(0, 555, 0, 555, 0, white));
 	world.Add(std::make_shared<XZRect>(0, 555, 0, 555, 555, white));
 	world.Add(std::make_shared<XYRect>(0, 555, 0, 555, 555, white));
+
+	world.Add(std::make_shared<Box>(point3(130, 0, 65), point3(295, 165, 230), white));
+	world.Add(std::make_shared<Box>(point3(265, 0, 295), point3(430, 330, 460), white));
 }
 
-int main() {
+int main()
+{
 #pragma region Camera
 	constexpr double aspect = 16.0 / 9.0;
 	constexpr int image_height = 720;
 	constexpr int image_width = image_height * aspect;
-
-	int depth = 50;
+	constexpr int depth = 100;
 	int samplerNum;
 	std::cin >> samplerNum;
 
@@ -161,8 +167,14 @@ int main() {
 	const BVH bvh_node{ world };
 #pragma endregion World
 
-	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+#pragma region Rendering
 
+	std::vector<vec3> colors(image_width * image_height);
+	omp_set_num_threads(8);
+
+	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+	//omp_set_num_threads(std::thread::hardware_concurrency());
+#pragma omp parallel for schedule(dynamic, 100)
 	for (int j = image_height - 1; j >= 0; --j)
 	{
 		std::cerr << "\rRemaining " << j << " lines..." << std::flush;
@@ -181,12 +193,20 @@ int main() {
 			}
 
 			color /= samplerNum;
-			WriteColor(std::cout, color);
+#pragma omp critical
+			colors[j * image_width + i] = color;
 		}
 	}
+
+	for (auto i = colors.end() - 1; i >= colors.begin(); --i)
+	{
+		WriteColor(std::cout, *i);
+	}
+#pragma endregion Rendering
 
 	const auto end_time = std::chrono::high_resolution_clock::now();
 	const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 	std::cerr << "\nFinish! using " << duration << std::endl;
+
 	system("pause");
 }
