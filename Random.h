@@ -2,7 +2,7 @@
 #include <random>
 #include <glm/glm.hpp>
 
-constexpr double PI = 3.1415926;
+#include "rtweekend.h"
 
 class Random
 {

@@ -18,6 +18,7 @@
 #include "DiffuseLight.h"
 #include "MovingSphere.h"
 #include "Rect.h"
+#include "Translate.h"
 
 void WriteColor(std::ostream& out, color pixel_color)
 {
@@ -31,7 +32,7 @@ vec3 RayColor(const Ray& ray, const Hittable& world, int deepth, vec3 background
 {
 	if (deepth < 0)
 	{
-		return vec3(0, 0, 0);
+		return { 0, 0, 0 };
 	}
 
 	constexpr double t_min = 0.000001;
@@ -42,7 +43,7 @@ vec3 RayColor(const Ray& ray, const Hittable& world, int deepth, vec3 background
 	{
 		vec3 attenuation(0, 0, 0);
 		Ray scattered;
-		vec3 emit = rec.mat_ptr->Emitted(rec.u, rec.v, rec.p);
+		const vec3 emit = rec.mat_ptr->Emitted(rec.u, rec.v, rec.p);
 		if (rec.mat_ptr->Scatter(ray, attenuation, rec, scattered))
 		{
 			return RayColor(scattered, world, deepth - 1, background) * attenuation + emit;
@@ -55,7 +56,9 @@ vec3 RayColor(const Ray& ray, const Hittable& world, int deepth, vec3 background
 
 void RandomWorld(HittableList& world)
 {
+	auto light = std::make_shared<DiffuseLight>(color(20, 20, 20));
 	auto ground_material = std::make_shared<Lambertian>(color(0.5, 0.5, 0.5));
+	world.Add(std::make_shared<Sphere>(vec3(0, 100, 0), 50, light));
 	world.Add(std::make_shared<Sphere>(point3(0, -1000, 0), 1000, ground_material));
 
 	for (int a = -11; a < 11; a++) {
@@ -131,6 +134,8 @@ void CornellBox(HittableList& world)
 	auto white = std::make_shared<Lambertian>(color(.73, .73, .73));
 	auto green = std::make_shared<Lambertian>(color(.12, .45, .15));
 	auto light = std::make_shared<DiffuseLight>(color(20, 20, 20));
+	auto material_left = std::make_shared<Dielectric>(1.5);
+	auto material_right = std::make_shared<Metallic>(vec3(0.3, 0.5, 0.6), 0.0);
 
 	world.Add(std::make_shared<YZRect>(0, 555, 0, 555, 555, green));
 	world.Add(std::make_shared<YZRect>(0, 555, 0, 555, 0, red));
@@ -139,8 +144,17 @@ void CornellBox(HittableList& world)
 	world.Add(std::make_shared<XZRect>(0, 555, 0, 555, 555, white));
 	world.Add(std::make_shared<XYRect>(0, 555, 0, 555, 555, white));
 
-	world.Add(std::make_shared<Box>(point3(130, 0, 65), point3(295, 165, 230), white));
-	world.Add(std::make_shared<Box>(point3(265, 0, 295), point3(430, 330, 460), white));
+	std::shared_ptr<Hittable> box1 = std::make_shared<Box>(point3(0, 0, 0), point3(165, 330, 165), white);
+	box1 = std::make_shared<RotateY>(box1, 15);
+	box1 = std::make_shared<Translate>(box1, vec3(265, 0, 295));
+
+	std::shared_ptr<Hittable> box2 = std::make_shared<Box>(point3(0.0, 0.0, 0.0), point3(165.0, 165.0, 165.0), white);
+	box2 = std::make_shared<RotateY>(box2, -18);
+	box2 = std::make_shared<Translate>(box2, vec3(130, 0, 65));
+
+	world.Add(box1);
+	world.Add(box2);
+	//world.Add(std::make_shared<Sphere>(point3(210, 230, 350), 100, material_right));
 }
 
 int main()
@@ -161,8 +175,8 @@ int main()
 	HittableList world;
 	//DefaultWorld(world);
 	//SimpleWorld(world);
-	CornellBox(world);
-	//RandomWorld(world);
+	//CornellBox(world);
+	RandomWorld(world);
 	const auto start_time = std::chrono::high_resolution_clock::now();
 	const BVH bvh_node{ world };
 #pragma endregion World
@@ -170,11 +184,11 @@ int main()
 #pragma region Rendering
 
 	std::vector<vec3> colors(image_width * image_height);
-	omp_set_num_threads(8);
 
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-	//omp_set_num_threads(std::thread::hardware_concurrency());
-#pragma omp parallel for schedule(dynamic, 100)
+	//omp_set_num_threads(8);
+	omp_set_num_threads(std::thread::hardware_concurrency());
+#pragma omp parallel for schedule(static, 10)
 	for (int j = image_height - 1; j >= 0; --j)
 	{
 		std::cerr << "\rRemaining " << j << " lines..." << std::flush;

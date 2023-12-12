@@ -22,6 +22,7 @@ struct HitRecord {
 class Hittable
 {
 public:
+	virtual ~Hittable() = default;
 	virtual bool Hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const = 0;
 	virtual AABB BoundingBox() const = 0;
 };

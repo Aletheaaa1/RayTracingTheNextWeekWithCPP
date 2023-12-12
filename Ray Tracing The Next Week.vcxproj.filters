@@ -75,6 +75,12 @@
     <ClInclude Include="Box.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Translate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rtweekend.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="img.ppm" />
