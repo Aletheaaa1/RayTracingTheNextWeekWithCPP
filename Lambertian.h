@@ -1,9 +1,9 @@
 #pragma once
-#include "Material.h"
-#include "Ray.h"
-#include "SolidColor.h"
-#include "CheckerTexture.h"
-#include "Texture.h"
+#include "material.h"
+#include "ray.h"
+#include "solid_color.h"
+#include "checker_texture.h"
+#include "texture.h"
 
 class Lambertian : public Material
 {

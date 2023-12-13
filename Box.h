@@ -1,7 +1,7 @@
 #pragma once
-#include "Hittable.h"
-#include "HittableList.h"
-#include "Rect.h"
+#include "hittable.h"
+#include "hittable_list.h"
+#include "rect.h"
 
 class Box :public Hittable
 {

@@ -1,6 +1,6 @@
 #pragma once
-#include "Ray.h"
-#include "Hittable.h"
+#include "ray.h"
+#include "hittable.h"
 
 struct HitRecord;
 

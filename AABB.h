@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <glm/common.hpp>
 
-#include "Ray.h"
+#include "ray.h"
 
 class AABB
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "Vec3.h"
+#include "vec3.h"
 void A()
 {}
 class Texture

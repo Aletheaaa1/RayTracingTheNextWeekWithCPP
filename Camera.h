@@ -1,7 +1,7 @@
 #pragma once
-#include "Random.h"
-#include "Vec3.h"
-#include "Ray.h"
+#include "random.h"
+#include "vec3.h"
+#include "ray.h"
 
 class Camera
 {

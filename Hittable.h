@@ -1,7 +1,7 @@
 #pragma once
-#include "Material.h"
-#include "Ray.h"
-#include "AABB.h"
+#include "material.h"
+#include "ray.h"
+#include "aabb.h"
 
 struct HitRecord {
 	vec3 p;

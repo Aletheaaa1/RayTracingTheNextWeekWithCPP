@@ -15,70 +15,73 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Dielectric .h">
+    <ClInclude Include="dielectric .h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Hittable.h">
+    <ClInclude Include="hittable.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="HittableList.h">
+    <ClInclude Include="hittable_list.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Lambertian.h">
+    <ClInclude Include="lambertian.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
+    <ClInclude Include="material.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Metallic.h">
+    <ClInclude Include="metallic.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Random.h">
+    <ClInclude Include="random.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Ray.h">
+    <ClInclude Include="ray.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Sphere.h">
+    <ClInclude Include="sphere.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Vec3.h">
+    <ClInclude Include="vec3.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MovingSphere.h">
+    <ClInclude Include="moving_sphere.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="AABB.h">
+    <ClInclude Include="aabb.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="BVH.h">
+    <ClInclude Include="bvh.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SolidColor.h">
+    <ClInclude Include="solid_color.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CheckerTexture.h">
+    <ClInclude Include="checker_texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="DiffuseLight.h">
+    <ClInclude Include="diffuse_light.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Rect.h">
+    <ClInclude Include="rect.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Box.h">
+    <ClInclude Include="box.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Translate.h">
+    <ClInclude Include="translate.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="rtweekend.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_medium.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

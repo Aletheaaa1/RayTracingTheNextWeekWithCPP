@@ -19,28 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABB.h" />
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="BVH.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CheckerTexture.h" />
-    <ClInclude Include="Dielectric .h" />
-    <ClInclude Include="DiffuseLight.h" />
-    <ClInclude Include="Hittable.h" />
-    <ClInclude Include="HittableList.h" />
-    <ClInclude Include="Lambertian.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Metallic.h" />
-    <ClInclude Include="MovingSphere.h" />
-    <ClInclude Include="Random.h" />
-    <ClInclude Include="Ray.h" />
-    <ClInclude Include="Rect.h" />
+    <ClInclude Include="aabb.h" />
+    <ClInclude Include="box.h" />
+    <ClInclude Include="bvh.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="checker_texture.h" />
+    <ClInclude Include="constant_medium.h" />
+    <ClInclude Include="dielectric .h" />
+    <ClInclude Include="diffuse_light.h" />
+    <ClInclude Include="hittable.h" />
+    <ClInclude Include="hittable_list.h" />
+    <ClInclude Include="lambertian.h" />
+    <ClInclude Include="material.h" />
+    <ClInclude Include="metallic.h" />
+    <ClInclude Include="moving_sphere.h" />
+    <ClInclude Include="random.h" />
+    <ClInclude Include="ray.h" />
+    <ClInclude Include="rect.h" />
     <ClInclude Include="rtweekend.h" />
-    <ClInclude Include="SolidColor.h" />
-    <ClInclude Include="Sphere.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Translate.h" />
-    <ClInclude Include="Vec3.h" />
+    <ClInclude Include="solid_color.h" />
+    <ClInclude Include="sphere.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="translate.h" />
+    <ClInclude Include="vec3.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="img.ppm" />

@@ -4,21 +4,22 @@
 #include <thread>
 #include <omp.h>
 
-#include "Box.h"
-#include "BVH.h"
-#include "Vec3.h"
-#include "Camera.h"
-#include "Ray.h"
-#include "HittableList.h"
-#include "Sphere.h"
+#include "box.h"
+#include "bVH.h"
+#include "vec3.h"
+#include "camera.h"
+#include "ray.h"
+#include "hittable_list.h"
+#include "sphere.h"
 
-#include "Lambertian.h"
-#include "Metallic.h"
-#include "Dielectric .h"
-#include "DiffuseLight.h"
-#include "MovingSphere.h"
-#include "Rect.h"
-#include "Translate.h"
+#include "lambertian.h"
+#include "metallic.h"
+#include "dielectric .h"
+#include "diffuse_light.h"
+#include "moving_sphere.h"
+#include "rect.h"
+#include "translate.h"
+#include "constant_medium.h"
 
 void WriteColor(std::ostream& out, color pixel_color)
 {
@@ -152,9 +153,9 @@ void CornellBox(HittableList& world)
 	box2 = std::make_shared<RotateY>(box2, -18);
 	box2 = std::make_shared<Translate>(box2, vec3(130, 0, 65));
 
-	world.Add(box1);
-	world.Add(box2);
-	//world.Add(std::make_shared<Sphere>(point3(210, 230, 350), 100, material_right));
+	world.Add(std::make_shared<ConstantMedium>(box1, 0.01, vec3(0.2, 0.4, 0.6)));
+	//world.Add(std::make_shared<ConstantMedium>(box2, 0.1, vec3(0.2, 0.4, 0.6)));
+	world.Add(std::make_shared<Sphere>(point3(210, 100, 150), 100, material_left));
 }
 
 int main()
@@ -175,8 +176,8 @@ int main()
 	HittableList world;
 	//DefaultWorld(world);
 	//SimpleWorld(world);
-	//CornellBox(world);
-	RandomWorld(world);
+	CornellBox(world);
+	//RandomWorld(world);
 	const auto start_time = std::chrono::high_resolution_clock::now();
 	const BVH bvh_node{ world };
 #pragma endregion World
@@ -186,9 +187,9 @@ int main()
 	std::vector<vec3> colors(image_width * image_height);
 
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-	//omp_set_num_threads(8);
-	omp_set_num_threads(std::thread::hardware_concurrency());
-#pragma omp parallel for schedule(static, 10)
+	omp_set_num_threads(10);
+	//omp_set_num_threads(std::thread::hardware_concurrency());
+#pragma omp parallel for schedule(static, 40)
 	for (int j = image_height - 1; j >= 0; --j)
 	{
 		std::cerr << "\rRemaining " << j << " lines..." << std::flush;

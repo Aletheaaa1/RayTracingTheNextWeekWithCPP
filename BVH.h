@@ -1,8 +1,8 @@
 #pragma once
 #include <algorithm>
 
-#include "Hittable.h"
-#include "HittableList.h"
+#include "hittable.h"
+#include "hittable_list.h"
 
 class BVH : public Hittable
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include <utility>
 
-#include "Hittable.h"
+#include "hittable.h"
 
 class XYRect :public Hittable
 {

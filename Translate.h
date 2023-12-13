@@ -1,6 +1,6 @@
 #pragma once
 #include "rtweekend.h"
-#include "Hittable.h"
+#include "hittable.h"
 
 class Translate :public Hittable
 {
